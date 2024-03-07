@@ -14,10 +14,12 @@ class event extends Model
         'titre',
         'description',
         'event_date',
+        'event_fin',
         'lieu',
         'category_id',
         'nombre_places',
         'validation',
+        'organisator_id',
     ];
 
     public function category(){
@@ -25,7 +27,7 @@ class event extends Model
     }
 
     public function organisator(){
-        $this->belongsTo(organisator::class);
+        $this->belongsTo(user::class);
     }
 
     

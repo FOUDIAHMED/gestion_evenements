@@ -30,14 +30,15 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth()->user();
+        // dd($user->acess);
 
+        if ($user->hasRole('admin')) {
+            // return view('admin.dashboard');
+            return redirect()->route('adminDashboard');
 
-        if ($user->role === "admin") {
-            return redirect()->route('\adminDashboard')->with("flash_message" , "Welcome  $user->name");
-
-           } elseif ($user->role === "organisator") {
+           } elseif ($user->hasRole('organisator')) {
             if($user->acess==="valid") {
-                return redirect()->route('organisatorDashboard')->with("flash_message" , "Welcome  $user->name") ;
+                return redirect()->route('dashboardOrganisator')->with("flash_message" , "Welcome  $user->name") ;
             }else{
                 return redirect()->route('auth.login');
             }
@@ -45,12 +46,12 @@ class AuthenticatedSessionController extends Controller
            
 
         }else {
-            if($user->role==="user"){
+            if($user->hasRole('user')){
                 if($user->acess==="valid"){
                     return redirect()->route('home')->with("flash_message" , "Welcome  $user->name") ;
                 }
                 else{
-                    return redirect()->route('auth.login');
+                    return redirect()->route('login');
                 }
             }
             

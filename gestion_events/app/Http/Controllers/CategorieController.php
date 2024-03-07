@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorecategorieRequest;
 use App\Http\Requests\UpdatecategorieRequest;
 use App\Models\categorie;
+use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
@@ -14,7 +15,11 @@ class CategorieController extends Controller
     public function index()
     {
         //
-        return view('admin.createCategorie');
+        $categories=categorie::all();
+        return view('admin.Category',compact('categories'));
+    }
+    public function add(){
+        return view('admin.createCat');
     }
 
     /**
@@ -28,11 +33,16 @@ class CategorieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorecategorieRequest $request)
+    public function store(Request $request)
     {
+        // dd($request);
         //
-        categorie::create($request->all());
-        return redirect()->route('categorie.index');
+        $categorie=categorie::create([
+            'name' =>$request->cat,
+        ]);
+        $categorie->save();
+        // dd($categorie);
+        return redirect()->route('Category');
     }
 
     /**
@@ -57,13 +67,33 @@ class CategorieController extends Controller
     public function update(UpdatecategorieRequest $request, categorie $categorie)
     {
         //
+        return view('admin.updatCategorie');
+    }
+    public function updatecat(Request $request){
+        $categorie=categorie::find($request->id);
+        $categorie->name=$request->cat;
+        $categorie->save();
+        return redirect()->route('Category');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(categorie $categorie)
+    public function destroy(Request $request)
     {
-        //
+        $categoryId = $request->id;
+
+        // Find the category by ID
+        $category = categorie::find($categoryId);
+    
+        // Check if the category exists
+        if (!$category) {
+            // If the category does not exist, return an error response or redirect
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+    
+        // Delete the category
+        $category->delete();
+        return redirect()->route('Category');
     }
 }

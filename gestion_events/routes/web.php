@@ -8,6 +8,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 
 /*
@@ -52,17 +53,30 @@ Route::get('/EventsList', function () {
     // Notification::send(User::all(),new \App\Notifications\UpdateMenuNotification());
     return view('admin.dashboard');
 })->middleware(['auth', 'role:admin'])->name('EventsList');
+
 Route::get('/UsersList',[AdminController::class,'users'])->middleware(['auth', 'role:admin'])->name('UsersList');
+Route::get('/Events',[EventController::class,'index'])->middleware(['auth', 'role:organisator'])->name('Events');
 Route::get('/dashboardOrganisator', function () {
-    // Notification::send(User::all(),new \App\Notifications\UpdateMenuNotification());
-    return view('dashboard');
+    return view('Organisator.index');
 })->middleware(['auth', 'verified'])->name('dashboardOrganisator');
-Route::post('/addCategory',[CategorieController::class,'store'])->middleware(['auth', 'role:admin'])->name('addCategory');
-Route::post('/Category',[CategorieController::class,'index'])->middleware(['auth', 'role:admin'])->name('Category');
+Route::get('/CreateEvent',[EventController::class,'diplayform'])->middleware(['auth', 'role:organisator'])->name('CreateEvent');
+Route::post('/AjoutEvent',[EventController::class,'store'])->middleware(['auth', 'role:organisator'])->name('AjoutEvent');
+Route::post('/createCat',[CategorieController::class,'store'])->middleware(['auth', 'role:admin'])->name('createCat');
+Route::get('/addCategory',[CategorieController::class,'add'])->middleware(['auth', 'role:admin'])->name('addCategory');
+Route::post('/UpdateCategory',[AdminController::class,'updatecat'])->middleware(['auth', 'role:admin'])->name('UpdateCategory');
+Route::post('/UpdateCat',[CategorieController::class,'updatecat'])->middleware(['auth', 'role:admin'])->name('UpdateCat');
+Route::get('/Category',[AdminController::class,'categories'])->middleware(['auth', 'role:admin'])->name('Category');
 Route::get('/dashboardAdmin', function () {
-    // Notification::send(User::all(),new \App\Notifications\UpdateMenuNotification());
     return view('admin.dashboard');
 })->middleware(['auth', 'role:admin'])->name('dashboardAdmin');
+
+
+Route::delete('/deleteCategory',[CategorieController::class,'destroy'] )->middleware(['auth', 'role:admin'])->name('deleteCategory');
+
+Route::get('/search',[EventController::class,'search'] );
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

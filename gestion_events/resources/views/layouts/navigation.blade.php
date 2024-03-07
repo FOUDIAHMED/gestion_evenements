@@ -34,7 +34,7 @@
                     <x-nav-link :href="route('dashboardOrganisator')" :active="request()->routeIs('dashboard')">
                         {{ __('Reservations') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboardOrganisator')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('Events')" :active="request()->routeIs('Events')">
                         {{ __('gestion des evenements') }}
                     </x-nav-link>
                     @endrole

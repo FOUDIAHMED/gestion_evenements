@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\categorie;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,5 +14,9 @@ class CategorieSeeder extends Seeder
     public function run(): void
     {
         //
+        $user=categorie::create([
+            'name' => 'architecture',
+            
+        ]);
     }
 }

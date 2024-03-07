@@ -6,6 +6,7 @@ use App\Http\Requests\StoreadminRequest;
 use App\Http\Requests\UpdateadminRequest;
 use App\Models\admin;
 use App\Models\User;
+use App\Models\categorie;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -24,6 +25,16 @@ class AdminController extends Controller
         })->get();
     
         return view('admin.Userslist', compact('users'));
+    }
+    public function categories(){
+        $categories = categorie::all();
+        return view('admin.Category',compact('categories'));
+    }
+
+    public function updatecat(Request $request){
+        $categorie=categorie::find($request->id);
+        // dd($categorie);
+        return view('admin.updatCategorie',compact('categorie'));
     }
     /**
      * Show the form for creating a new resource.
