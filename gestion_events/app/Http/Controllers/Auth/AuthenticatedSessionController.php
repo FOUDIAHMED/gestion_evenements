@@ -29,7 +29,36 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth()->user();
+
+
+        if ($user->role === "admin") {
+            return redirect()->route('\adminDashboard')->with("flash_message" , "Welcome  $user->name");
+
+           } elseif ($user->role === "organisator") {
+            if($user->acess==="valid") {
+                return redirect()->route('organisatorDashboard')->with("flash_message" , "Welcome  $user->name") ;
+            }else{
+                return redirect()->route('auth.login');
+            }
+
+           
+
+        }else {
+            if($user->role==="user"){
+                if($user->acess==="valid"){
+                    return redirect()->route('home')->with("flash_message" , "Welcome  $user->name") ;
+                }
+                else{
+                    return redirect()->route('auth.login');
+                }
+            }
+            
+        }
+        return redirect('/');
+
+
+        
     }
 
     /**

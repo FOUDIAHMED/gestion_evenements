@@ -10,8 +10,6 @@ class admin extends Model
 {
     use HasFactory,HasRoles;
 
-    // public function user(){
-    //     $this->belongsTo(User::class);
-    // }
+    
     
 }

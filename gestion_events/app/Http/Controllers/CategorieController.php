@@ -14,6 +14,7 @@ class CategorieController extends Controller
     public function index()
     {
         //
+        return view('admin.createCategorie');
     }
 
     /**
@@ -30,6 +31,8 @@ class CategorieController extends Controller
     public function store(StorecategorieRequest $request)
     {
         //
+        categorie::create($request->all());
+        return redirect()->route('categorie.index');
     }
 
     /**

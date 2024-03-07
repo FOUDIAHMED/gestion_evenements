@@ -50,6 +50,8 @@ class ProviderController extends Controller
                     'email_verified_at'=>now(),
                     'picture'=>$SocialUser->avatar
                 ]);
+                $user->assignRole('user');
+                $user->save();
             }
             Auth::login($user);
             return redirect('/dashboard');

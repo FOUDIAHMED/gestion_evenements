@@ -17,6 +17,9 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
+            <div class="container">
+                @yield('content')
+            </div>
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -28,9 +31,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            @yield('slot')
         </div>
     </body>
 </html>

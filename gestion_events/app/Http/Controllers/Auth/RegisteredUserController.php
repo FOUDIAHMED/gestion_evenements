@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -44,6 +45,7 @@ class RegisteredUserController extends Controller
         if($request->has('organisator')){
             $role='organisator';
             $user->accept_mode=$request->type_paiement;
+            $user->save();
         }else{
             $role='user';
         }

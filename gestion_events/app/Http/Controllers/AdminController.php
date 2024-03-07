@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreadminRequest;
 use App\Http\Requests\UpdateadminRequest;
 use App\Models\admin;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -16,14 +18,25 @@ class AdminController extends Controller
         //
         return view('admin.index');
     }
-
+    public function users(){
+        $users = User::whereHas('roles', function($query) {
+            $query->whereIn('name', ['user', 'organisator']);
+        })->get();
+    
+        return view('admin.Userslist', compact('users'));
+    }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function updateacess(Request $request)
     {
-        //
-        
+        // dd($request);
+        $user=User::find($request->id);
+        // dd($user);
+        $user->acess=$request->acess;
+        $user->save();
+        return redirect()->back();
+
     }
 
     /**

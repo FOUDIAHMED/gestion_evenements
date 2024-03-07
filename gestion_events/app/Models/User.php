@@ -28,6 +28,9 @@ class User extends Authenticatable
         'provider_id',
         'provider_token',
         'picture',
+        'accept_mode',
+        'acess',
+        
     ];
 
     /**
@@ -50,12 +53,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function admin(){
-        return $this->hasOne(admin::class);
-    }
-    public function organisator(){
-        return $this->hasOne(organisator::class);
-    }
+    
 
 
 
